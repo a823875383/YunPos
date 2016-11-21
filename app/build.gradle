@@ -1,0 +1,75 @@
+apply plugin: 'com.android.application'
+
+version = "1.0.8"
+
+android {
+    compileSdkVersion 23
+    buildToolsVersion "24.0.0"
+
+    signingConfigs {
+        release {
+            storeFile file(RELEASE_STORE_FILE)
+            storePassword project.hasProperty('RELEASE_STORE_PASSWORD') ? RELEASE_STORE_PASSWORD : ''
+            keyAlias project.hasProperty('RELEASE_KEY_ALIA') ? RELEASE_KEY_ALIA : ''
+            keyPassword project.hasProperty('RELEASE_KEY_PASSWORD') ? RELEASE_KEY_PASSWORD : ''
+        }
+    }
+    defaultConfig {
+        applicationId "com.jsqix.yunpos.app"
+        minSdkVersion 15
+        targetSdkVersion 22
+        versionCode 1
+        versionName version
+
+        ndk {
+            moduleName "yunpos"
+            ldLibs "log"
+            abiFilters "armeabi"
+        }
+    }
+    buildTypes {
+        // Debug 版本使用正式签名
+        debug {
+            signingConfig signingConfigs.release
+            debuggable true
+        }
+        release {
+            signingConfig signingConfigs.release
+            minifyEnabled false
+            zipAlignEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            applicationVariants.all { variant ->
+                variant.outputs.each { output ->
+                    def outputFile = output.outputFile;
+                    if (outputFile != null && outputFile.name.endsWith('.apk')) {
+                        File outputDirectory = new File(outputFile.parent);
+                        def fileName
+                        if (variant.buildType.name == "release") {
+                            fileName = "app_v${defaultConfig.versionName}_${packageTime()}.apk"
+                        } else {
+                            fileName = "app-debug.apk"
+                        }
+                        output.outputFile = new File(outputDirectory, fileName)
+                    }
+                }
+            }
+        }
+    }
+
+}
+
+def packageTime() {
+    return new Date().format("yyyyMMddHHmm", TimeZone.getTimeZone("GMT+8"))
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    testCompile 'junit:junit:4.12'
+    compile 'com.android.support:appcompat-v7:23.2.1'
+    compile 'org.xutils:xutils:3.3.32'
+    compile 'com.jsqix.utils:utils:1.0.8.2'
+    compile 'com.google.code.gson:gson:2.6.2'
+    compile 'com.bigkoo:pickerview:2.0.8'
+    compile 'com.jsqix.dq.indicator:monindicator:1.0.0'
+}
