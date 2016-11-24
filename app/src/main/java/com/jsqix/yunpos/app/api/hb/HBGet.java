@@ -1,28 +1,25 @@
-package com.jsqix.yunpos.app.api;
+package com.jsqix.yunpos.app.api.hb;
 
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.jsqix.utils.ACache;
 import com.jsqix.yunpos.app.api.face.InterfaceHttpGet;
-import com.jsqix.yunpos.app.utils.UAD;
+import com.jsqix.yunpos.app.utils.hb.HttpClientTool;
 
-import org.xutils.http.RequestParams;
-import org.xutils.x;
-
+import java.io.IOException;
 import java.util.Map;
 
-public abstract class HttpGet extends AsyncTask<String, String, String> {
+
+public abstract class HBGet extends AsyncTask<String, String, String> {
     String response = "";
     int resultCode = 0;
     InterfaceHttpGet mListener;
     Context context;
-    Map<String, Object> postMap;
+    Map<String, String> postMap;
 
-    // Constructor
-    public HttpGet(Context context, Map<String, Object> params,
-                   InterfaceHttpGet listener) {
+    public HBGet(Context context, Map<String, String> params,
+                 InterfaceHttpGet listener) {
         this.mListener = listener;
         this.postMap = params;
         this.context = context;
@@ -42,8 +39,7 @@ public abstract class HttpGet extends AsyncTask<String, String, String> {
     public String getJSON(String... urls) {
         try {
             for (String url : urls) {
-                String getUrl = ApiClient.makeGetMessage(ApiClient.IP + url, postMap);
-                XutilsRequst(getUrl);
+                OkHttpRequest(url);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -54,12 +50,15 @@ public abstract class HttpGet extends AsyncTask<String, String, String> {
         return response;
     }
 
-    private void XutilsRequst(String url) throws Throwable {
-        RequestParams params = new RequestParams(url);
-        params.setHeader(UAD.TOKEN, ACache.get(context).getAsString(UAD.TOKEN));
-        params.setConnectTimeout(30*1000);
-        response = x.http().getSync(params, String.class);
+    private void OkHttpRequest(String url) throws IOException {
+        HttpClientTool httpClientTool = HttpClientTool.getInstance();
+        if (postMap == null || postMap.size() == 0) {
+            response = httpClientTool.sendGet(url);
+        } else {
+            response = httpClientTool.sendGet(url, postMap);
+        }
     }
+
 
     public void setResultCode(int code) {
         this.resultCode = code;

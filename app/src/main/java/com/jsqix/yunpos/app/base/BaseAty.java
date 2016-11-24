@@ -8,8 +8,8 @@ import android.view.View;
 import com.jsqix.utils.BaseActivity;
 import com.jsqix.utils.LogWriter;
 import com.jsqix.yunpos.app.R;
-import com.jsqix.yunpos.app.api.HttpGet;
-import com.jsqix.yunpos.app.api.HttpPost;
+import com.jsqix.yunpos.app.api.face.InterfaceHttpGet;
+import com.jsqix.yunpos.app.api.face.InterfaceHttpPost;
 import com.jsqix.yunpos.app.view.ConfirmDialog;
 import com.jsqix.yunpos.app.view.CustomeDialog;
 
@@ -20,7 +20,7 @@ import cn.jpush.android.api.JPushInterface;
 /**
  * Created by dq on 2016/3/15.
  */
-public class BaseAty extends BaseActivity implements HttpPost.InterfaceHttpPost, HttpGet.InterfaceHttpGet {
+public class BaseAty extends BaseActivity implements InterfaceHttpPost, InterfaceHttpGet {
     public CustomeDialog loading;
     public ConfirmDialog errorDailog;
 

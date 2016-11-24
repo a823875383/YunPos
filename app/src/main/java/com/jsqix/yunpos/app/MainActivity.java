@@ -1,15 +1,16 @@
 package com.jsqix.yunpos.app;
 
-import android.support.v7.app.AlertDialog;
 import android.app.TabActivity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.widget.CompoundButton;
 import android.widget.TabHost;
 
 import com.google.gson.Gson;
 import com.jsqix.yunpos.app.api.HttpPost;
+import com.jsqix.yunpos.app.api.face.InterfaceHttpPost;
 import com.jsqix.yunpos.app.base.MyApplication;
 import com.jsqix.yunpos.app.bean.UpdateBean;
 import com.jsqix.yunpos.app.utils.DownApkUtils;
@@ -20,7 +21,7 @@ import org.xutils.x;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MainActivity extends TabActivity implements HttpPost.InterfaceHttpPost {
+public class MainActivity extends TabActivity implements InterfaceHttpPost {
     public static final String TAB_HOME = "TAB_HOME";
     public static final String TAB_BALANCE = "TAB_BALANCE";
     public static final String TAB_ORDER = "TAB_ORDER";

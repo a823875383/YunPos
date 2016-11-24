@@ -16,6 +16,7 @@ public class StatusOrder {
         status.put(1, "部分支付");
         status.put(2, "交易完成");
         status.put(3, "交易失败");
+        status.put(4, "待审核");
     }
 
     public static StatusOrder Instance() {

@@ -1,8 +1,11 @@
 apply plugin: 'com.android.application'
+apply plugin: 'com.antfortune.freeline'
 
-version = "1.0.8"
+version = "1.0.10"
 
 android {
+    useLibrary 'org.apache.http.legacy'
+
     compileSdkVersion 23
     buildToolsVersion "24.0.0"
 
@@ -57,6 +60,7 @@ android {
         }
     }
 
+    sourceSets { main { assets.srcDirs = ['src/main/assets', 'src/main/assets/'] } }
 }
 
 def packageTime() {
@@ -72,4 +76,5 @@ dependencies {
     compile 'com.google.code.gson:gson:2.6.2'
     compile 'com.bigkoo:pickerview:2.0.8'
     compile 'com.jsqix.dq.indicator:monindicator:1.0.0'
+    compile 'org.apache.httpcomponents:httpclient-android:4.3.5.1'
 }

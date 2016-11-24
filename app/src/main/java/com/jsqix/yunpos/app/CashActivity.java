@@ -26,7 +26,6 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
-import com.jsqix.utils.DateUtil;
 import com.jsqix.utils.DensityUtil;
 import com.jsqix.utils.FrameApplication;
 import com.jsqix.utils.Utils;
@@ -34,6 +33,7 @@ import com.jsqix.yunpos.app.api.HttpGet;
 import com.jsqix.yunpos.app.api.HttpPost;
 import com.jsqix.yunpos.app.base.BaseAty;
 import com.jsqix.yunpos.app.bean.BaseBean;
+import com.jsqix.yunpos.app.bean.CodeOrderBean;
 import com.jsqix.yunpos.app.bean.MsgBean;
 import com.jsqix.yunpos.app.bean.PlaceOrder;
 import com.jsqix.yunpos.app.bean.StatusReultBean;
@@ -54,7 +54,6 @@ import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Timer;
@@ -78,6 +77,9 @@ public class CashActivity extends BaseAty {
     private EditText verificationPhone;
     @ViewInject(R.id.input_coupon_no)
     private EditText verificationNo;
+    //更多电子券兑换
+    @ViewInject(R.id.coupons_exchange)
+    private TextView coupons_exchange;
     //支付金额
     @ViewInject(R.id.editTextAmt)
     private EditText editTextAmt;
@@ -175,8 +177,8 @@ public class CashActivity extends BaseAty {
 
         editTextAmt.setSelection(CommUtils.textToString(editTextAmt).length());
         couponsMoney.setText(CommUtils.textToString(editTextAmt));
-        editCodeNo.setText(DateUtil.dateToString(new Date(), "yyyyMMdd"));
-        editCodeNo.setSelection(CommUtils.textToString(editCodeNo).length());
+//        editCodeNo.setText(DateUtil.dateToString(new Date(), "yyyyMMdd"));
+//        editCodeNo.setSelection(CommUtils.textToString(editCodeNo).length());
 //        tips = getString(R.string.cash_tips);
         initPayDailog();
         initWxQrcode();
@@ -432,7 +434,7 @@ public class CashActivity extends BaseAty {
         });
     }
 
-    @Event(value = {R.id.buttonSubmit, R.id.send_coupons_code})
+    @Event(value = {R.id.buttonSubmit, R.id.send_coupons_code, R.id.coupons_exchange})
     private void click(View v) {
         String amt = CommUtils.textToString(editTextAmt);
         String coupons = CommUtils.textToString(couponsMoney);
@@ -513,6 +515,10 @@ public class CashActivity extends BaseAty {
 //                    }
                     placeOrder(UAD.TYPE_DZQ, "", phone, coupons, orderNotes);
                 }
+                break;
+            //更多电子券
+            case R.id.coupons_exchange:
+                startActivity(new Intent(this, CouponExchangeActivity.class));
                 break;
             default:
                 break;
@@ -776,7 +782,7 @@ public class CashActivity extends BaseAty {
         get.setResultCode(PLACE);
     }
 
-    //券码下单
+    //订单支付 下单
     private void codeOrder() {
         Map<String, Object> map = new HashMap<>();
         map.put("uid", aCache.getAsString(UAD.UID));
@@ -784,10 +790,20 @@ public class CashActivity extends BaseAty {
         map.put("orderSource", UAD.ANDROID);
         map.put("orderAmount", CommUtils.textToString(editTextAmt));
         map.put("orderPhone", CommUtils.textToString(editCodePhone));
+        map.put("orderNotes", "订单支付");
+        if (!CommUtils.isEmpty(aCache.getAsString(UAD.LOCATE_LONGITUDE))) {
+            map.put("longitude", aCache.getAsString(UAD.LOCATE_LONGITUDE));
+        }
+        if (!CommUtils.isEmpty(aCache.getAsString(UAD.LOCATE_LATITUDE))) {
+            map.put("latitude", aCache.getAsString(UAD.LOCATE_LATITUDE));
+        }
+        if (!CommUtils.isEmpty(aCache.getAsString(UAD.LOCATE__ADDRESS))) {
+            map.put("address", aCache.getAsString(UAD.LOCATE__ADDRESS));
+        }
         HttpGet get = new HttpGet(this, map, this) {
             @Override
             public void onPreExecute() {
-
+                loading.show();
             }
         };
         get.setResultCode(CODE_ORDER);
@@ -887,19 +903,18 @@ public class CashActivity extends BaseAty {
                     }
                     break;
                 case CODE_ORDER:
-                    BaseBean baseBean = new Gson().fromJson(result, BaseBean.class);
-                    if ("000".equals(baseBean.getCode())) {
-                        showError("保存成功");
-                        editCodeNo.setText(DateUtil.dateToString(new Date(), "yyyyMMdd"));
-                        editCodeNo.setSelection(CommUtils.textToString(editCodeNo).length());
-                        editCodePhone.setText("");
+                    loading.dismiss();
+                    CodeOrderBean orderBean = new Gson().fromJson(result, CodeOrderBean.class);
+                    if ("000".equals(orderBean.getCode())) {
+                        Utils.makeToast(this, orderBean.getMsg());
+                        startActivity(new Intent(CashActivity.this, PayResultActivity.class).putExtra("orderId", orderBean.getObj().getOrderId()));
                     } else {
-                        showError(baseBean.getMsg());
+                        showError(orderBean.getMsg());
                     }
                     break;
                 case VERIFICATION_COUPON:
                     loading.dismiss();
-                    baseBean = new Gson().fromJson(result, BaseBean.class);
+                    BaseBean baseBean = new Gson().fromJson(result, BaseBean.class);
                     if ("000".equals(baseBean.getCode())) {
                         VerificationResult verificationResult = new Gson().fromJson(result, VerificationResult.class);
                         startActivity(new Intent(CashActivity.this, PayResultActivity.class).putExtra("orderId", verificationResult.getObj().getOrderId()));

@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.jsqix.utils.ACache;
+import com.jsqix.yunpos.app.api.face.InterfaceHttpPost;
 import com.jsqix.yunpos.app.utils.UAD;
 
 import org.xutils.http.RequestParams;
@@ -109,7 +110,5 @@ public abstract class HttpPost extends AsyncTask<String, String, String> {
         this.resultCode = resultCode;
     }
 
-    public interface InterfaceHttpPost {
-        void postCallback(int resultCode, String result);
-    }
+
 }

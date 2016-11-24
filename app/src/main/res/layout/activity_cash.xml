@@ -15,35 +15,53 @@
         android:layout_height="wrap_content"
         android:visibility="gone" />
 
-    <RadioGroup
-        android:id="@+id/top_radio"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="@color/colorPrimary"
-        android:checkedButton="@+id/top_radio_left"
-        android:gravity="center"
-        android:orientation="horizontal">
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary">
 
-        <RadioButton
-            android:id="@+id/top_radio_left"
+        <RadioGroup
+            android:id="@+id/top_radio"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_centerInParent="true"
+            android:checkedButton="@+id/top_radio_left"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/top_radio_left"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/top_radio_left"
+                android:button="@null"
+                android:gravity="center"
+                android:text="移动电子券"
+                android:textColor="@drawable/top_radio_color" />
+
+            <RadioButton
+                android:id="@+id/top_radio_right"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/top_radio_right"
+                android:button="@null"
+                android:gravity="center"
+                android:text="券码核销"
+                android:textColor="@drawable/top_radio_color" />
+
+        </RadioGroup>
+
+        <TextView
+            android:id="@+id/coupons_exchange"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/top_radio_left"
-            android:button="@null"
-            android:gravity="center"
-            android:text="移动电子券"
-            android:textColor="@drawable/top_radio_color" />
-
-        <RadioButton
-            android:id="@+id/top_radio_right"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/top_radio_right"
-            android:button="@null"
-            android:gravity="center"
-            android:text="券码核销"
-            android:textColor="@drawable/top_radio_color" />
-    </RadioGroup>
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:background="@mipmap/swe"
+            android:textColor="@color/white"
+            android:textSize="12sp" />
+    </RelativeLayout>
 
     <ScrollView
         android:id="@+id/scrollView"
@@ -356,7 +374,8 @@
                             android:drawablePadding="10dp"
                             android:gravity="center_vertical"
                             android:hint="请输入订单编号"
-                            android:inputType="number"
+                            android:inputType="textEmailAddress"
+                            android:digits="0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
                             android:singleLine="true"
                             android:textColorHint="@color/text_gray"
                             android:textSize="16sp" />
@@ -405,12 +424,12 @@
                     android:layout_height="35dp"
                     android:layout_margin="5dp"
                     android:background="@null"
+                    android:digits="0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
                     android:drawableLeft="@mipmap/ic_code_pay"
                     android:drawablePadding="10dp"
                     android:gravity="center_vertical"
                     android:hint="请输入券码编号"
                     android:inputType="textEmailAddress"
-                    android:digits="0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
                     android:singleLine="true"
                     android:textColorHint="@color/text_gray"
                     android:textSize="16sp" />

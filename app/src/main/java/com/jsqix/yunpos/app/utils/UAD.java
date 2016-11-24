@@ -19,6 +19,8 @@ public class UAD {
     final public static String LOCATE_LATITUDE = "latitude";
     final public static String LOCATE__ADDRESS = "address";
 
+    final public static String LOAD_URL = "load_url";
+
     public static native String getParaMd5Key();
 
     public static native String getPswMd5Key();
@@ -26,7 +28,7 @@ public class UAD {
     public static native String getRequestIp();
 
     public static String getTestIp() {
-        return "http://120.55.191.214:8080/api/";
+        return "http://192.168.1.176:8080/api/";
     }
 
     static {
