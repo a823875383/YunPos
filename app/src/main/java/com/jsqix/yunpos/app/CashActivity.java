@@ -478,7 +478,7 @@ public class CashActivity extends BaseAty {
                         } else if (CommUtils.notPhone(CommUtils.textToString(editCodePhone))) {
                             Utils.makeToast(this, "手机号不正确");
                         } else if (CommUtils.isEmpty(codeNo)) {
-                            Utils.makeToast(this, "请输入订单编号");
+                            Utils.makeToast(this, "请输入兑换码");
                         } else {
                             codeOrder();
                         }
@@ -493,7 +493,7 @@ public class CashActivity extends BaseAty {
                     } else if (CommUtils.notPhone(verification_phone)) {
                         Utils.makeToast(this, "手机号不正确");
                     } else if (CommUtils.isEmpty(verification_no)) {
-                        Utils.makeToast(this, "请输入券码编号");
+                        Utils.makeToast(this, "请输入兑换码");
                     } else {
                         verificationCoupon(verification_phone, verification_no);
                     }
@@ -790,7 +790,7 @@ public class CashActivity extends BaseAty {
         map.put("orderSource", UAD.ANDROID);
         map.put("orderAmount", CommUtils.textToString(editTextAmt));
         map.put("orderPhone", CommUtils.textToString(editCodePhone));
-        map.put("orderNotes", "订单支付");
+        map.put("orderNotes", "兑换码支付");
         if (!CommUtils.isEmpty(aCache.getAsString(UAD.LOCATE_LONGITUDE))) {
             map.put("longitude", aCache.getAsString(UAD.LOCATE_LONGITUDE));
         }

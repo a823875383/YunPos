@@ -245,7 +245,7 @@
                             android:background="@drawable/radio_right"
                             android:button="@null"
                             android:gravity="center"
-                            android:text="订单支付"
+                            android:text="兑换码支付"
                             android:textColor="@drawable/text_radio_color"
                             android:textSize="16sp" />
                     </RadioGroup>
@@ -373,7 +373,7 @@
                             android:drawableLeft="@mipmap/ic_code_pay"
                             android:drawablePadding="10dp"
                             android:gravity="center_vertical"
-                            android:hint="请输入订单编号"
+                            android:hint="请输入兑换码"
                             android:inputType="textEmailAddress"
                             android:digits="0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
                             android:singleLine="true"
@@ -428,7 +428,7 @@
                     android:drawableLeft="@mipmap/ic_code_pay"
                     android:drawablePadding="10dp"
                     android:gravity="center_vertical"
-                    android:hint="请输入券码编号"
+                    android:hint="请输入兑换码"
                     android:inputType="textEmailAddress"
                     android:singleLine="true"
                     android:textColorHint="@color/text_gray"

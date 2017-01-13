@@ -223,6 +223,15 @@
         <activity
             android:name=".CouponPayActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".HbLoginActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".HbPayActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".HbConfirmActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

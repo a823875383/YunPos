@@ -1,5 +1,6 @@
 package com.jsqix.yunpos.app.adapter;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 import com.jsqix.utils.BaseActivity;
 import com.jsqix.utils.StringUtils;
 import com.jsqix.utils.Utils;
+import com.jsqix.yunpos.app.HbLoginActivity;
 import com.jsqix.yunpos.app.R;
 import com.jsqix.yunpos.app.bean.CouponExchangeBean;
 import com.jsqix.yunpos.app.utils.CommUtils;
@@ -81,7 +83,7 @@ public class CouponAdapter extends HolderBaseAdapter<CouponExchangeBean.ObjBean.
             }
         });
         dialog.setView(view);
-        dialog.setParas(0,0);
+        dialog.setParas(0, 0);
     }
 
     @Override
@@ -103,9 +105,12 @@ public class CouponAdapter extends HolderBaseAdapter<CouponExchangeBean.ObjBean.
                 @Override
                 public void onClick(View v) {
                     pro_no = productListBean.getProduct_code();
-                    title.setText(productListBean.getProduct_name());
-                    phone.setText("");
-                    dialog.show();
+//                    title.setText(productListBean.getProduct_name());
+//                    phone.setText("");
+//                    dialog.show();
+                    Intent intent = new Intent(mContext, HbLoginActivity.class);
+                    intent.putExtra("pro_no", pro_no);
+                    mContext.startActivity(intent);
                 }
             });
             child.addView(view);

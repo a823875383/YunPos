@@ -1,7 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.antfortune.freeline'
 
-version = "1.0.10"
+version = "1.1.0"
 
 android {
     useLibrary 'org.apache.http.legacy'
